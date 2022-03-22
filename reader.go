@@ -87,14 +87,16 @@ func OpenReader(name string) (*ReadCloser, error) {
 		return nil, err
 	}
 
-	fi, err := f.Stat()
+	fileSize, err := f.Seek(0, 2)
+	// fi, err := f.Stat()
 	if err != nil {
 		f.Close()
 		return nil, err
 	}
 
 	r := new(ReadCloser)
-	if err := r.init(f, fi.Size(), false); err != nil {
+	//if err := r.init(f, fi.Size(), false); err != nil {
+	if err := r.init(f, fileSize, false); err != nil {
 		f.Close()
 		return nil, err
 	}
